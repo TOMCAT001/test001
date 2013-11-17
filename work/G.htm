@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <script type="text/javascript">
+  /* パラメータを受取る側 */
+            function pramWrite() {
+  /* アドレスの「?」以降の引数(パラメータ)を取得 */
+                var pram=location.search;
+
+  /* 引数がない時は処理しない */
+                if (!pram) return false;
+  /* 先頭の?をカット */
+                pram=pram.substring(1);
+  /* 「&」で引数を分割して配列に */
+                var pair=pram.split("&");
+                var i=temp="";
+                var key=new Array();
+		var sum=0;
+                for (i=0; i < pair.length; i++) {
+   /* 配列の値を「=」で分割 */
+                    temp=pair[i].split("=");
+                    keyName=temp[0];
+                    keyValue=temp[1];
+   /* キーと値の連想配列を生成 */
+                    key[keyName]=keyValue;
+                    sum = sum +eval(keyValue);
+		/*alert(sum);*/
+                }
+	document.form01.pram.value=sum;
+            }
+        </script>
+    </head>
+<body onload=pramWrite()>
+        <form name="form01">
+           <fieldset>
+                <legend>総得点</legend>
+                <textarea cols="40" rows="4" name="pram" style="border:0;overflow:visible" readonly="readonly"></textarea>
+            </fieldset>
+        </form>
+</body>
+</html>
